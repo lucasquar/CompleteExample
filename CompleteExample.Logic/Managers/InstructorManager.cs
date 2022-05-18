@@ -1,5 +1,6 @@
 ﻿using CompleteExample.Entities.Repositories;
 using CompleteExample.Logic.DTOs;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,15 +9,18 @@ namespace CompleteExample.Logic.Managers
 {
     public class InstructorManager : IInstructorManager
     {
+        private readonly ILogger<InstructorManager> _logger;
         private readonly ICompleteExampleRepository _completeExampleRepository;
 
-        public InstructorManager(ICompleteExampleRepository completeExampleRepository)
+        public InstructorManager(ILogger<InstructorManager> logger, ICompleteExampleRepository completeExampleRepository)
         {
+            this._logger = logger;
             this._completeExampleRepository = completeExampleRepository;
         }
 
         public async Task<IEnumerable<CourseStudentGradeDTO>> GetStudentGradesAsync(int instructorId)
         {
+            this._logger.LogInformation("Getting the list of students' grades the instructor has given out");
             var enrollments = await this._completeExampleRepository.GetAllEnrollmentsByInstructorIdAsync(instructorId);
             return enrollments.GroupBy(e => e.Course).Select(e => new CourseStudentGradeDTO()
             {

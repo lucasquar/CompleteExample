@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "af351892-448b-4f1c-bc83-442bbe104138",
+		"name": "Eyrus_CompleteExample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1 - For a particular instructor, list all the students' grades the instructor has given out",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/Instructors/GetInstructorStudentGrades/20",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"Instructors",
+						"GetInstructorStudentGrades",
+						"20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2 - List all students that have the top 3 grades for each course",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/Students/GetTopStudentsForEachCourse",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"Students",
+						"GetTopStudentsForEachCourse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3 - Enroll a student in a course",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"studentId\": 13,\r\n    \"courseId\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/Students/EnrollStudent",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"Students",
+						"EnrollStudent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4 - Update a grade(number) for a student for a course",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"studentId\": 13,\r\n    \"courseId\": 2,\r\n    \"grade\": 87.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/Students/UpdateStudentGrade",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"Students",
+						"UpdateStudentGrade"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://localhost:5001"
+		}
+	]
+}

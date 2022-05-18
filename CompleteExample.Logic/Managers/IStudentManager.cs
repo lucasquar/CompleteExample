@@ -9,5 +9,7 @@ namespace CompleteExample.Logic.Managers
     {
         Task<IEnumerable<Student>> GetAllAsync();
         Task<IEnumerable<CourseStudentGradeDTO>> GetTopStudentsForEachCourseAsync();
+        Task<int?> EnrollStudentInACourseAsync(EnrollmentStudentCourseDTO enrollmentRequest);
+        Task<bool> UpdateStudentCourseGradeAsync(UpdateEnrollmentStudentCourseDTO request);
     }
 }

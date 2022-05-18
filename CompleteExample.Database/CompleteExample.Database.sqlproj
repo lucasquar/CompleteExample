@@ -61,4 +61,7 @@
   <ItemGroup>
     <PostDeploy Include="BuildDatabaseWithSampleData.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="TableHistoricalStudentGrade.sql" />
+  </ItemGroup>
 </Project>
