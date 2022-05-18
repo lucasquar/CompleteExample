@@ -33,6 +33,8 @@ namespace CompleteExample.Logic.Tests
         [Test]
         public async Task Test()
         {
+            await Task.CompletedTask;
+            Assert.IsTrue(true);
         }
     }
 }

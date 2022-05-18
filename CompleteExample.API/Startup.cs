@@ -1,18 +1,11 @@
+using CompleteExample.API.Extensions;
 using CompleteExample.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace CompleteExample.API
 {
@@ -32,6 +25,10 @@ namespace CompleteExample.API
 
             services.AddDbContext<CompleteExampleDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SchoolContext")));
+
+            services.ConfigureSwagger();
+            services.ConfigureRepositories();
+            services.ConfigureManagers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +37,10 @@ namespace CompleteExample.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.ConfigureSwagger();
             }
+            else
+                app.UseExceptionHandler();
 
             app.UseHttpsRedirection();
             app.UseRouting();
