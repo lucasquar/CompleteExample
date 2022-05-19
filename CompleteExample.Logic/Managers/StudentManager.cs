@@ -29,13 +29,13 @@ namespace CompleteExample.Logic.Managers
         {
             this._logger.LogInformation("Getting top 3 students' grades for each course");
             var enrollments = await this._completeExampleRepository.GetTopGradesEnrollmentsForStudentsAndCoursesAsync();
-            return enrollments.GroupBy(e => e.Course).Select(e => new CourseStudentGradeDTO()
+            return enrollments.GroupBy(e => new { e.CourseId, e.Course.Title }).Select(e => new CourseStudentGradeDTO()
             {
                 CourseId = e.Key.CourseId,
                 CourseTitle = e.Key.Title,
                 Students = e.Take(3).Select(s => new StudentGradeDTO()
                 {
-                    StudentId = s.StudentId,
+                    StudentId = s.Student.StudentId,
                     StudentName = $"{s.Student.LastName}, {s.Student.FirstName}",
                     StudentGrade = s.Grade
                 })
@@ -69,8 +69,11 @@ namespace CompleteExample.Logic.Managers
                 return false;
 
             var student = await this._completeExampleRepository.GetStudentByIdAsync(enrollmentToValidate.StudentId.GetValueOrDefault());
+            if (student == null)
+                return false;
+
             var course = await this._completeExampleRepository.GetCourseByIdAsync(enrollmentToValidate.CourseId.GetValueOrDefault());
-            if (student == null || course == null)
+            if (course == null)
                 return false;
 
             var existingEnrollment = await this._completeExampleRepository.GetEnrollmentByStudentIdCourseIdAsync(enrollmentToValidate.StudentId.GetValueOrDefault(), enrollmentToValidate.CourseId.GetValueOrDefault());

@@ -22,13 +22,13 @@ namespace CompleteExample.Logic.Managers
         {
             this._logger.LogInformation("Getting the list of students' grades the instructor has given out");
             var enrollments = await this._completeExampleRepository.GetAllEnrollmentsByInstructorIdAsync(instructorId);
-            return enrollments.GroupBy(e => e.Course).Select(e => new CourseStudentGradeDTO()
+            return enrollments.GroupBy(e => new { e.CourseId, e.Course.Title }).Select(e => new CourseStudentGradeDTO()
             {
                 CourseId = e.Key.CourseId,
                 CourseTitle = e.Key.Title,
                 Students = e.Select(s => new StudentGradeDTO()
                 {
-                    StudentId = s.StudentId,
+                    StudentId = s.Student.StudentId,
                     StudentName = $"{s.Student.LastName}, {s.Student.FirstName}",
                     StudentGrade = s.Grade
                 })

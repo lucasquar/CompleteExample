@@ -33,8 +33,8 @@ namespace CompleteExample.API.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<Student>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAsync()
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAllAsync()
         {
             try
             {
@@ -51,12 +51,16 @@ namespace CompleteExample.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves the list of all students that have the top 3 grades for each course
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("[action]", Name = "GetTopStudentsForEachCourse")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<CourseStudentGradeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetTopStudentsForEachCourseAsync()
         {
             try
@@ -74,12 +78,16 @@ namespace CompleteExample.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Enroll a student in a course
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Route("[action]", Name = "EnrollStudent")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(OkResult), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CreatedResult), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> EnrollStudentAsync([FromBody] EnrollmentStudentCourseDTO request)
         {
             try
@@ -88,7 +96,7 @@ namespace CompleteExample.API.Controllers
                 if (!enrollmentId.HasValue)
                     return BadRequest();
 
-                return Ok();
+                return Created(string.Empty, enrollmentId);
             }
             catch (Exception ex)
             {
@@ -97,12 +105,16 @@ namespace CompleteExample.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Update a grade(number) for a student for a course
+        /// </summary>
+        /// <returns></returns>
         [HttpPut]
         [Route("[action]", Name = "UpdateStudentGrade")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(OkResult), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(OkResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateStudentGradeAsync([FromBody] UpdateEnrollmentStudentCourseDTO request)
         {
             try

@@ -32,7 +32,7 @@ namespace CompleteExample.API.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<Course>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAsync()
         {
             try

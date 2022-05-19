@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace CompleteExample.API.Controllers
@@ -26,12 +24,16 @@ namespace CompleteExample.API.Controllers
             this._instructorManager = instructorManager;
         }
 
+        /// <summary>
+        /// Retrieves the list of all the students' grades the instructor has given out for a particular instructor
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("[action]/{id}", Name = "GetInstructorStudentGrades")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<CourseStudentGradeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetInstructorStudentGradesAsync([FromRoute] int id)
         {
             try

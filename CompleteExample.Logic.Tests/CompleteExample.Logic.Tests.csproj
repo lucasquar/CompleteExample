@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CompleteExample.API\CompleteExample.API.csproj" />
     <ProjectReference Include="..\CompleteExample.Entities\CompleteExample.Entities.csproj" />
     <ProjectReference Include="..\CompleteExample.Logic\CompleteExample.Logic.csproj" />
   </ItemGroup>
