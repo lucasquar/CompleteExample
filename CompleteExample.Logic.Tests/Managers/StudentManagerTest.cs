@@ -91,6 +91,13 @@ namespace CompleteExample.Logic.Tests.Managers
                     Course = new Course() { CourseId = 1, Title = "some_title" },
                     Student = new Student() { StudentId = 1, LastName = "some_last_name", FirstName = "some_first_name" },
                     Grade = 70
+                },
+                new Enrollment()
+                {
+                    CourseId = 1,
+                    Course = new Course() { CourseId = 1, Title = "some_title" },
+                    Student = new Student() { StudentId = 4, LastName = "some_last_name", FirstName = "some_first_name" },
+                    Grade = 50
                 }
             };
             this.mRepository.GetTopGradesEnrollmentsForStudentsAndCoursesAsync().Returns(expectedEnrollments);
