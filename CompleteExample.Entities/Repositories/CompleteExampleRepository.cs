@@ -43,8 +43,8 @@ namespace CompleteExample.Entities.Repositories
                 .Where(e => e.Grade.HasValue)
                 .Include(e => e.Course)
                 .Include(e => e.Student)
-                .OrderBy(e => e.Course.Title)
-                .ThenByDescending(e => e.Grade)
+                .GroupBy(e => e.Grade.Value)
+                .SelectMany(ge => ge.OrderBy(e => e.Course.Title).ThenByDescending(e => e.Grade).Take(3))
                 .ToListAsync();
         }
 

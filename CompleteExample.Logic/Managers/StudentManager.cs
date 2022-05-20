@@ -33,7 +33,7 @@ namespace CompleteExample.Logic.Managers
             {
                 CourseId = e.Key.CourseId,
                 CourseTitle = e.Key.Title,
-                Students = e.Take(3).Select(s => new StudentGradeDTO()
+                Students = e.Select(s => new StudentGradeDTO()
                 {
                     StudentId = s.Student.StudentId,
                     StudentName = $"{s.Student.LastName}, {s.Student.FirstName}",

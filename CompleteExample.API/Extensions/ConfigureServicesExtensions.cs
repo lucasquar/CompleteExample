@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -19,25 +21,29 @@ namespace CompleteExample.API.Extensions
         }
 
         public static void ConfigureRepositories(this IServiceCollection services)
-            => ConfigureServicesByAssembly(services, AssemblyEntitiesName, "Repositories");
+            => ConfigureServicesByAssembly(services, AssemblyEntitiesName, "Repositories", ServiceLifetime.Scoped);
 
         public static void ConfigureManagers(this IServiceCollection services)
-            => ConfigureServicesByAssembly(services, AssemblyLogicName, "Managers");
+            => ConfigureServicesByAssembly(services, AssemblyLogicName, "Managers", ServiceLifetime.Scoped);
 
-        private static void ConfigureServicesByAssembly(IServiceCollection services, string assemblyName, string assemblyFolder)
+        private static void ConfigureServicesByAssembly(IServiceCollection services, string assemblyName, string assemblyFolder, ServiceLifetime lifeTime)
         {
             var assembly = Assembly.Load(assemblyName);
             var assemblyFilesName = $"{assemblyName}.{assemblyFolder}";
             var files = assembly.GetTypes().Where(f => f.FullName.StartsWith(assemblyFilesName));
             var classList = files.Where(f => f.IsClass && f.GetInterfaces().Any());
             var interfaceList = files.Where(f => f.IsInterface);
-            foreach (var iFile in interfaceList)
+            var serviceDescriptorList = new List<ServiceDescriptor>();
+            foreach (var iType in interfaceList)
             {
-                var className = iFile.Name[1..];
-                var classFile = classList.FirstOrDefault(c => c.Name.Equals(className) && c.GetInterface(iFile.Name) != null);
-                if (classFile != null)
-                    services.AddScoped(iFile, classFile);
+                var cName = iType.Name[1..];
+                var cType = classList.FirstOrDefault(c => c.Name.Equals(cName) && c.GetInterface(iType.Name) != null);
+                if (cType != null)
+                    serviceDescriptorList.Add(new ServiceDescriptor(iType, cType, lifeTime));
             }
+
+            if (serviceDescriptorList.Any())
+                services.TryAddEnumerable(serviceDescriptorList);
         }
     }
 }
